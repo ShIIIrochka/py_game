@@ -1,6 +1,49 @@
 # Pythongame
 
 
+## Codestyle
+
+```python
+# -*- coding: utf-8 -*-
+
+
+# импорт общих модулей
+import os
+import math
+
+
+# импорт pygame
+import pygame
+
+# импорт своих сервисов
+from scripts import test
+
+
+
+
+class FirstClass:
+    """ Описание класса """
+
+    def sum_function(self, first_num: int, second_num: int) -> int:
+        """
+        :param first_num: Первое число
+        :param second_num: Второе число
+
+        :returns: Возвращает сумму двух чисел.
+        """
+
+
+        return sum(first_num, second_num)
+
+
+class SecondClass:
+    """
+    Длинное описание класса
+    """
+    pass
+```
+
+
 ## Poetry
 
 
