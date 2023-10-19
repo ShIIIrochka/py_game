@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+from random import randint
  
 WIDTH = 728
 HEIGHT = 350
@@ -11,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 # Загрузка и конвертация изображений
 sky_surface = pygame.image.load('sky.PNG').convert()
 ground_surface = pygame.image.load('ground.PNG').convert()
- 
+
 pit1_surface = pygame.image.load('pit.PNG').convert_alpha()
 pit_surf = pygame.transform.scale(pit1_surface, (45, 45))
 pit_rect = pit_surf.get_rect(midbottom=(728, 270))
@@ -53,11 +54,11 @@ while running:
                 exit()
 
         if game_active:
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.y >= 150:
                 if player_rect.collidepoint(event.pos):
                     player_gravity = -20
  
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and player_rect.y >= 150:
                 if event.key == pygame.K_SPACE:
                     player_gravity = -20
         else:
