@@ -23,9 +23,9 @@ cat_stand_surf = pygame.image.load('cat.stand.PNG').convert_alpha()
 cat_stand_surf = pygame.transform.scale(cat_stand_surf, (200, 200))
 cat_rect = cat_stand_surf.get_rect(midbottom = (364, 230))
 
-bird_surf = pygame.image.load('fish.PNG').convert_alpha()
-bird_surf = pygame.transform.scale(bird_surf, (50, 50))
-bird_rect= bird_surf.get_rect(midbottom=(728, 70))
+fish_surf = pygame.image.load('fish.PNG').convert_alpha()
+fish_surf = pygame.transform.scale(fish_surf, (50, 50))
+fish_rect= fish_surf.get_rect(midbottom=(728, 70))
 
 player_surf = pygame.transform.scale(cat_surf, (90, 90))
 player_rect = player_surf.get_rect(midbottom=(100, 250))
@@ -33,7 +33,22 @@ player_gravity = 0
  
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
- 
+
+text = pygame.font.Font(None, 50)
+
+def score():
+
+    count = 0
+
+    if player_rect.colliderect(fish_rect):
+        count += 1
+
+    score_surf = text(f'Score: {count}',False,(64,64,64))
+    score_rect = score_surf.get_rect(center = (364,50))
+    screen.blit(score_surf,score_rect)
+
+
+
 # Флаги для состояния игры
 running = True
 game_active = False
@@ -83,14 +98,16 @@ while running:
         screen.blit(pit_surf, pit_rect)
 
 
-        bird_rect.x -= 4
-        if bird_rect.right <0:
-            bird_rect.left = 728
-        screen.blit(bird_surf, bird_rect)
+        fish_rect.x -= 4
+        if fish_rect.right <0:
+            fish_rect.left = 728
+        screen.blit(fish_surf, fish_rect)
 
         # Переключение видимости указателя мыши
         pygame.mouse.set_visible(True)
- 
+
+        score()
+
         # Обработка столкновения
         if player_rect.colliderect(pit_rect):
             game_active = False
