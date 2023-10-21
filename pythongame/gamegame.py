@@ -34,18 +34,21 @@ player_gravity = 0
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
 
-text = pygame.font.Font(None, 50)
+score = 0
 
-def score():
-
-    count = 0
+def score_play():
+    global score 
 
     if player_rect.colliderect(fish_rect):
-        count += 1
+        score += 1
+        
 
-    score_surf = text(f'Score: {count}',False,(64,64,64))
+    text = pygame.font.Font(None, 50)
+    score_surf = text.render(f'Score: {score}',False,(64,64,64))
     score_rect = score_surf.get_rect(center = (364,50))
+
     screen.blit(score_surf,score_rect)
+    return score
 
 
 
@@ -106,7 +109,7 @@ while running:
         # Переключение видимости указателя мыши
         pygame.mouse.set_visible(True)
 
-        score()
+        score = score_play()
 
         # Обработка столкновения
         if player_rect.colliderect(pit_rect):
@@ -118,3 +121,7 @@ while running:
         game_active = False
  
     pygame.display.update()
+
+
+
+
