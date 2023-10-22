@@ -10,6 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.player_surf = pygame.transform.scale(self.player_surf, size)
         self.player_rect = self.player_surf.get_rect(midbottom=pos)
         self.image = self.player_surf
+        self.rect = self.image.get_rect(midbottom=pos)
 
     def jump(self):
         self.gravity += 1
@@ -42,6 +43,8 @@ class NPS(pygame.sprite.Sprite):
         self.surf = pygame.image.load(file_name).convert_alpha()
         self.surf = pygame.transform.scale(self.surf, scale)
         self.rect = self.surf.get_rect(midbottom=midbottom)
+        self.image = self.surf
+        self.rect = self.image.get_rect(midbottom=midbottom)
 
     def update(self):
         self.rect.x -= 6
@@ -73,7 +76,7 @@ obstacle_group = pygame.sprite.Group()
 player_group = pygame.sprite.GroupSingle()  # Changed the variable name to 'player_group'
 
 pit = NPS('pit.PNG', (45, 45), (728, 270))
-start = NPS('cat.stand.PNG', (200, 200), (364, 230))
+start = Player('cat.stand.PNG', (200, 200), (364, 230))
 fish = NPS('fish.PNG', (50, 50), (728, 70))
 
 obstacle_group.add(pit, start, fish)
