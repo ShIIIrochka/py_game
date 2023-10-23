@@ -60,7 +60,7 @@ class NPS(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = randint(728, 1100)
         self.rect.y = randint(y_range[0], y_range[1])  # Генерация случайной координаты Y в указанном диапазоне
-        self.speed = speed
+        self.speed = randint(speed[0], speed[1])
 
     def update(self):
         """
@@ -110,8 +110,8 @@ ground_surface = pygame.image.load('ground.PNG').convert()
 
 player = Player('cat.PNG', (90, 90), (100, 250))
 
-pit = NPS('pit.PNG', (45, 45), 5, (230, 230))
-fish = NPS('fish.PNG', (50, 50), 6, (70, 120))  
+pit = NPS('pit.PNG', (45, 45), (4,6), (230, 230))
+fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 120))  
 start = Player('cat.stand.PNG', (200, 200), (364, 230))
 
 #группы
@@ -155,8 +155,8 @@ while running:
 
         if not obstacle_group:
 
-            pit = NPS('pit.PNG', (45, 45), 5, (230, 230))
-            fish = NPS('fish.PNG', (50, 50), 6, (70, 120))  
+            pit = NPS('pit.PNG', (45, 45), (4, 6), (230, 230))
+            fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 120))  
             obstacle_group.add(pit, fish)
 
         obstacle_group.draw(screen)
