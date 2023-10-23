@@ -1,9 +1,19 @@
 import pygame
 from sys import exit
-import random
-
+from random import randint
+ 
 class Player(pygame.sprite.Sprite):
+    """
+    функции для игрока - спрайта кота
+    """
     def __init__(self, player_file, size, pos):
+
+        """
+        :param player_file: имя файла
+        :param size: размер спрайта
+        :param pos: расположение спрайта
+        """
+
         super().__init__()
         self.gravity = 0
         self.player_surf = pygame.image.load(player_file).convert_alpha()
@@ -12,6 +22,9 @@ class Player(pygame.sprite.Sprite):
         self.image = self.player_surf
 
     def jump(self):
+        """
+        описание прыжка игрока
+        """
         self.gravity += 1
         self.rect.y += self.gravity
         if self.rect.bottom >= 250:
@@ -19,67 +32,104 @@ class Player(pygame.sprite.Sprite):
             self.rect.bottom = 250
 
     def space_bottom(self):
+        """
+        если нажат пробел, спрайт игрока прыгает
+        """
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.rect.bottom == 250:
             self.gravity = -20
+
 
     def update(self):
         self.jump()
         self.space_bottom()
 
+
 class NPS(pygame.sprite.Sprite):
-    def __init__(self, file_name, scale):
+
+    def __init__(self, file_name, scale, speed, y_range):
+        """
+        :param file_name: имя файла
+        :param scale: размер спрайта
+        :param speed: скорость спрайта
+        :param y_range: диапазон генерации случайной координаты по оси y
+        """
         super().__init__()
         self.image = pygame.image.load(file_name).convert_alpha()
         self.image = pygame.transform.scale(self.image, scale)
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(800, 1000)
-        self.rect.y = random.randint(200, 270)
+        self.rect.x = randint(728, 1100)
+        self.rect.y = randint(y_range[0], y_range[1])  # Генерация случайной координаты Y в указанном диапазоне
+        self.speed = speed
 
     def update(self):
-        self.rect.x -= 6
+        """
+        движение спрайтов
+        """
+        self.rect.x -= self.speed
         if self.rect.x <= -100:
             self.kill()
+
 
 def collision_sprite():
     global score
     collisions = pygame.sprite.spritecollide(player, obstacle_group, False)
-    for fish in collisions:
-        fish.kill()
-        score += 1
-        return False
+
+    for sprite in collisions:
+        if sprite == fish:  # Проверьте, столкнулись ли вы с fish
+            sprite.kill()
+            score += 1
+        elif sprite == pit:  # Проверьте, столкнулись ли вы с pit
+            return False  # Верните False, чтобы вернуть игру на экран старта
+    
+    score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
+    score_rect = score_surf.get_rect(center = (400,50))
+    screen.blit(score_surf,score_rect)
+
     return True
 
+
+
+#параметры игрового окна
 WIDTH = 728
 HEIGHT = 350
 FPS = 60
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Моя игра")
+screen = pygame.display.set_mode((WIDTH, HEIGHT)) #создание окна игры
+pygame.display.set_caption("My Game") #название игры
 clock = pygame.time.Clock()
+
+test_font = pygame.font.Font(None, 50)
 
 score = 0
 
+# Загрузка и конвертация изображений
 sky_surface = pygame.image.load('sky.PNG').convert()
 ground_surface = pygame.image.load('ground.PNG').convert()
 
 player = Player('cat.PNG', (90, 90), (100, 250))
+
+pit = NPS('pit.PNG', (45, 45), 5, (230, 230))
+fish = NPS('fish.PNG', (50, 50), 6, (70, 120))  
+start = Player('cat.stand.PNG', (200, 200), (364, 230))
+
+#группы
 player_group = pygame.sprite.GroupSingle(player)
 
 obstacle_group = pygame.sprite.Group()
-
-pit = NPS('pit.PNG', (45, 45))
-fish = NPS('fish.PNG', (50, 50))
 obstacle_group.add(pit, fish)
 
 # Флаги для состояния игры
 running = True
 game_active = False
-
+ 
 while running:
+    #держим цикл на правильной скорости
     clock.tick(FPS)
+
     for event in pygame.event.get():
+        #обработка события закрытия окна
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
@@ -87,6 +137,7 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 exit()
+
             if game_active:
                 if event.key == pygame.K_SPACE:
                     player.space_bottom()
@@ -94,7 +145,7 @@ while running:
                 if event.key == pygame.K_SPACE:
                     game_active = True
                     score = 0
-
+ 
     if game_active:
         screen.blit(sky_surface, (0, 0))
         screen.blit(ground_surface, (0, 250))
@@ -103,8 +154,9 @@ while running:
         player_group.update()
 
         if not obstacle_group:
-            pit = NPS('pit.PNG', (45, 45))
-            fish = NPS('fish.PNG', (50, 50))
+
+            pit = NPS('pit.PNG', (45, 45), 5, (230, 230))
+            fish = NPS('fish.PNG', (50, 50), 6, (70, 120))  
             obstacle_group.add(pit, fish)
 
         obstacle_group.draw(screen)
