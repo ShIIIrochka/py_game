@@ -47,18 +47,19 @@ class Player(pygame.sprite.Sprite):
 
 class NPS(pygame.sprite.Sprite):
 
-    def __init__(self, file_name, scale, speed, y_range):
+    def __init__(self, file_name, scale, speed, x_range, y_range):
         """
         :param file_name: имя файла
         :param scale: размер спрайта
         :param speed: скорость спрайта
+        :param x_range: диапазон генерации случайной координаты по оси x
         :param y_range: диапазон генерации случайной координаты по оси y
         """
         super().__init__()
         self.image = pygame.image.load(file_name).convert_alpha()
         self.image = pygame.transform.scale(self.image, scale)
         self.rect = self.image.get_rect()
-        self.rect.x = randint(728, 1100)
+        self.rect.x = randint(x_range[0], x_range[1])
         self.rect.y = randint(y_range[0], y_range[1])  # Генерация случайной координаты Y в указанном диапазоне
         self.speed = randint(speed[0], speed[1])
 
@@ -99,8 +100,8 @@ def obstaclegroup() -> None:
         
         global pit_instances, fish_instances
         
-        fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 110)) for i in range(4)]
-        pit_instances = [NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230)) for i in range(2)]   
+        fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7),(300, 1200), (40, 110)) for i in range(3)]
+        pit_instances = [NPS('graphics/pit.PNG', (35, 35), (5, 5), (800, 870), (230, 230)) for i in range(2)]   
         obstacle_group.add(*fish_instances, *pit_instances)
 
 
@@ -126,8 +127,6 @@ ground_surface = pygame.transform.scale(ground_surface, (WIDTH, HEIGHT//2))
 
 player = Player('graphics/cat.PNG', (90, 90), (100, 250))
 
-
-
 start_surf = pygame.image.load('graphics/cat.stand.PNG').convert_alpha()
 start_surf = pygame.transform.scale(start_surf, (200, 200))
 start_rect = start_surf.get_rect(center = (400,200))
@@ -142,7 +141,7 @@ obstaclegroup()
 running = True
 game_active = False
 
-game_message = test_font.render('Press space to run',False,(111,196,169))
+game_message = test_font.render('Press space to run',False,(64,64,64))
 game_message_rect = game_message.get_rect(center = (400,330))
 
 while running:
