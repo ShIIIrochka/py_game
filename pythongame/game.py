@@ -23,7 +23,7 @@ def collision_sprite() -> bool:
             obstacle_group.empty()
             return False 
 
-    score_surf = test_font.render(f'Score: {score}', False, (64, 64, 64))
+    score_surf = test_font.render(f'Score: {score}', False, (105, 104, 174))
     score_rect = score_surf.get_rect(center=(400, 50))
     screen.blit(score_surf, score_rect)
 
@@ -33,8 +33,8 @@ def obstaclegroup() -> None:
         
         global pit_instances, fish_instances
         
-        fish_instances = [NPC('graphics/fish.PNG', (50, 50), (5, 7),(300, 1200), (40, 110)) for i in range(3)]
-        pit_instances = [NPC('graphics/pit.PNG', (35, 35), (5, 5), (800, 870), (230, 230)) for i in range(2)]   
+        fish_instances = [NPC('graphics/fish.PNG', (50, 50), (5, 7),(800, 2000), (10, 110)) for i in range(3)]
+        pit_instances = [NPC('graphics/pit.PNG', (35, 35), (5, 5), (800, 870), (240, 240)) for i in range(2)]   
         obstacle_group.add(*fish_instances, *pit_instances)
 
 
@@ -56,7 +56,7 @@ score = 0
 sky_surface = pygame.image.load('graphics/sky.PNG').convert() #размер изображения 1700 на 289
 sky_surface = pygame.transform.scale(sky_surface, (WIDTH, 289))
 ground_surface = pygame.image.load('graphics/ground.PNG').convert() #размер изображения 2015 на 816
-ground_surface = pygame.transform.scale(ground_surface, (WIDTH, HEIGHT//2))
+ground_surface = pygame.transform.scale(ground_surface, (800, 150))
 
 player = Player('graphics/cat.PNG', (90, 90), (100, 250))
 
@@ -74,7 +74,7 @@ obstaclegroup()
 running = True
 game_active = False
 
-game_message = test_font.render('Press space to run',False,(64,64,64))
+game_message = test_font.render('Press space to run',False,(105, 104, 174))
 game_message_rect = game_message.get_rect(center = (400,330))
 
 while running:
@@ -116,11 +116,11 @@ while running:
 
         game_active = collision_sprite()
     else:
-        screen.fill((123, 145, 123))
+        screen.fill((183, 182, 229))
         screen.blit(start_surf, start_rect)
         screen.blit(game_message,game_message_rect)
 
-    score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
+    score_surf = test_font.render(f'Score: {score}',False,(105, 104, 174))
     score_rect = score_surf.get_rect(center = (400,50))
     screen.blit(score_surf,score_rect)
 
