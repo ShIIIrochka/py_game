@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import pygame
 from sys import exit
-from random import randint
 
 from entity import Player, NPC
  
 def collision_sprite() -> bool:
     """
-    функция для подсчета score и проверок столкновений спрайтов
+    Функция для подсчета score и проверок столкновений спрайтов
     """
 
     global score
@@ -32,8 +33,8 @@ def obstaclegroup() -> None:
         
         global pit_instances, fish_instances
         
-        fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7),(300, 1200), (40, 110)) for i in range(3)]
-        pit_instances = [NPS('graphics/pit.PNG', (35, 35), (5, 5), (800, 870), (230, 230)) for i in range(2)]   
+        fish_instances = [NPC('graphics/fish.PNG', (50, 50), (5, 7),(300, 1200), (40, 110)) for i in range(3)]
+        pit_instances = [NPC('graphics/pit.PNG', (35, 35), (5, 5), (800, 870), (230, 230)) for i in range(2)]   
         obstacle_group.add(*fish_instances, *pit_instances)
 
 
@@ -123,7 +124,5 @@ while running:
     score_rect = score_surf.get_rect(center = (400,50))
     screen.blit(score_surf,score_rect)
 
-
-
-
-    pygame.display.update()
+    if __name__ == '__main__':
+        pygame.display.update()

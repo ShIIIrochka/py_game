@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
+
+import pygame
+from random import randint
 
 class NPC(pygame.sprite.Sprite):
-
+    """ Класс объекта НПС """
     def __init__(self, file_name, scale, speed, x_range, y_range):
         """
         :param file_name: имя файла
@@ -9,6 +13,7 @@ class NPC(pygame.sprite.Sprite):
         :param x_range: диапазон генерации случайной координаты по оси x
         :param y_range: диапазон генерации случайной координаты по оси y
         """
+
         super().__init__()
         self.image = pygame.image.load(file_name).convert_alpha()
         self.image = pygame.transform.scale(self.image, scale)
@@ -19,8 +24,9 @@ class NPC(pygame.sprite.Sprite):
 
     def update(self):
         """
-        движение спрайтов
+        Движение спрайтов
         """
+        
         self.rect.x -= self.speed
         if self.rect.x <= -100:
             self.kill()

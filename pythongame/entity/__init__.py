@@ -1,2 +1,2 @@
 from entity.player import Player
-from entity.npc import NPS
+from entity.npc import NPC

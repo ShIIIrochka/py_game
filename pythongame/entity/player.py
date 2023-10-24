@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
+import pygame
+
 
 class Player(pygame.sprite.Sprite):
-    """
-    функции для игрока - спрайта кота
-    """
+    """ Функции для игрока - спрайта кота """
     def __init__(self, player_file, size, pos):
 
         """
@@ -20,8 +22,9 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         """
-        описание прыжка игрока
+        Описание прыжка игрока
         """
+        
         self.gravity += 1
         self.rect.y += self.gravity
         if self.rect.bottom >= 250:
@@ -30,13 +33,18 @@ class Player(pygame.sprite.Sprite):
 
     def space_bottom(self):
         """
-        если нажат пробел, спрайт игрока прыгает
+        Если нажат пробел, спрайт игрока прыгает
         """
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and self.rect.bottom == 250:
             self.gravity = -20
 
 
     def update(self):
+        """
+        Обновление событий
+        """
+
         self.jump()
         self.space_bottom()
