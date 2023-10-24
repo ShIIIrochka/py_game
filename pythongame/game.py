@@ -1,77 +1,9 @@
 import pygame
 from sys import exit
 from random import randint
+
+from entity import Player, NPC
  
-class Player(pygame.sprite.Sprite):
-    """
-    функции для игрока - спрайта кота
-    """
-    def __init__(self, player_file, size, pos):
-
-        """
-        :param player_file: имя файла
-        :param size: размер спрайта
-        :param pos: расположение спрайта
-        """
-
-        super().__init__()
-        self.gravity = 0
-        self.player_surf = pygame.image.load(player_file).convert_alpha()
-        self.player_surf = pygame.transform.scale(self.player_surf, size)
-        self.rect = self.player_surf.get_rect(midbottom=pos)
-        self.image = self.player_surf
-
-    def jump(self):
-        """
-        описание прыжка игрока
-        """
-        self.gravity += 1
-        self.rect.y += self.gravity
-        if self.rect.bottom >= 250:
-            self.gravity = 0
-            self.rect.bottom = 250
-
-    def space_bottom(self):
-        """
-        если нажат пробел, спрайт игрока прыгает
-        """
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE] and self.rect.bottom == 250:
-            self.gravity = -20
-
-
-    def update(self):
-        self.jump()
-        self.space_bottom()
-
-
-class NPS(pygame.sprite.Sprite):
-
-    def __init__(self, file_name, scale, speed, x_range, y_range):
-        """
-        :param file_name: имя файла
-        :param scale: размер спрайта
-        :param speed: скорость спрайта
-        :param x_range: диапазон генерации случайной координаты по оси x
-        :param y_range: диапазон генерации случайной координаты по оси y
-        """
-        super().__init__()
-        self.image = pygame.image.load(file_name).convert_alpha()
-        self.image = pygame.transform.scale(self.image, scale)
-        self.rect = self.image.get_rect()
-        self.rect.x = randint(x_range[0], x_range[1])
-        self.rect.y = randint(y_range[0], y_range[1])  # Генерация случайной координаты Y в указанном диапазоне
-        self.speed = randint(speed[0], speed[1])
-
-    def update(self):
-        """
-        движение спрайтов
-        """
-        self.rect.x -= self.speed
-        if self.rect.x <= -100:
-            self.kill()
-
-
 def collision_sprite() -> bool:
     """
     функция для подсчета score и проверок столкновений спрайтов
