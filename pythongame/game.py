@@ -81,10 +81,10 @@ def collision_sprite():
 
     for sprite in collisions:
         if sprite == fish_instances:  # Проверка столкновения игрока с fish
-            obstacle_group.empty()
+            sprite.kill()
             score += 1
         elif sprite == pit_instances:
-            obstacle_group.empty()  # Проверка столкновения игрока с pit
+            sprite.kill()  # Проверка столкновения игрока с pit
             return False  # Возвращение False, чтобы вернуть игру на экран старта
     
     score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
@@ -93,6 +93,13 @@ def collision_sprite():
 
     return True
 
+def obstaclegroup() -> None:
+        
+        global pit_instances, fish_instances
+        
+        pit_instances = NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230))
+        fish_instances = NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 120))  
+        obstacle_group.add(pit_instances, fish_instances)
 
 
 #параметры игрового окна
@@ -117,8 +124,7 @@ ground_surface = pygame.transform.scale(ground_surface, (WIDTH, HEIGHT//2))
 
 player = Player('graphics/cat.PNG', (90, 90), (100, 250))
 
-fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 110)) for i in range(4)]
-pit_instances = [NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230)) for i in range(2)] 
+
 
 start_surf = pygame.image.load('graphics/cat.stand.PNG').convert_alpha()
 start_surf = pygame.transform.scale(start_surf, (200, 200))
@@ -128,7 +134,7 @@ start_rect = start_surf.get_rect(center = (400,200))
 player_group = pygame.sprite.GroupSingle(player)
 
 obstacle_group = pygame.sprite.Group()
-obstacle_group.add(*fish_instances, *pit_instances)
+obstaclegroup()
 
 # Флаги для состояния игры
 running = True
@@ -168,10 +174,7 @@ while running:
 
         if not obstacle_group:
 
-            fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 110)) for i in range(4)]
-            pit_instances = [NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230)) for i in range(2)] 
-
-            obstacle_group.add(*fish_instances, *pit_instances)
+            obstaclegroup()
 
         obstacle_group.draw(screen)
         obstacle_group.update()
