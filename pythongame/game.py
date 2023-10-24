@@ -72,15 +72,20 @@ class NPS(pygame.sprite.Sprite):
 
 
 def collision_sprite():
+    """
+    функция для подсчета score и проверок столкновений спрайтов
+    """
+
     global score
     collisions = pygame.sprite.spritecollide(player, obstacle_group, False)
 
     for sprite in collisions:
-        if sprite == fish:  # Проверьте, столкнулись ли вы с fish
+        if sprite == fish:  # Проверка столкновения игрока с fish
             sprite.kill()
             score += 1
-        elif sprite == pit:  # Проверьте, столкнулись ли вы с pit
-            return False  # Верните False, чтобы вернуть игру на экран старта
+        elif sprite == pit:
+            sprite.kill()  # Проверка столкновения игрока с pit
+            return False  # Возвращение False, чтобы вернуть игру на экран старта
     
     score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
     score_rect = score_surf.get_rect(center = (400,50))
@@ -117,7 +122,7 @@ fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 110))
 
 start_surf = pygame.image.load('cat.stand.PNG').convert_alpha()
 start_surf = pygame.transform.scale(start_surf, (200, 200))
-start_rect = start_surf.get_rect(midbottom = (364, 230))
+start_rect = start_surf.get_rect(center = (400,200))
 
 #группы
 player_group = pygame.sprite.GroupSingle(player)
@@ -128,7 +133,10 @@ obstacle_group.add(pit, fish)
 # Флаги для состояния игры
 running = True
 game_active = False
- 
+
+game_message = test_font.render('Press space to run',False,(111,196,169))
+game_message_rect = game_message.get_rect(center = (400,330))
+
 while running:
     #держим цикл на правильной скорости
     clock.tick(FPS)
@@ -171,10 +179,13 @@ while running:
     else:
         screen.fill((123, 145, 123))
         screen.blit(start_surf, start_rect)
+        screen.blit(game_message,game_message_rect)
 
     score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
     score_rect = score_surf.get_rect(center = (400,50))
     screen.blit(score_surf,score_rect)
+
+
 
 
     pygame.display.update()
