@@ -91,8 +91,8 @@ def collision_sprite():
 
 
 #параметры игрового окна
-WIDTH = 728
-HEIGHT = 350
+WIDTH = 800
+HEIGHT = 400
 FPS = 60
 
 pygame.init()
@@ -105,14 +105,19 @@ test_font = pygame.font.Font(None, 50)
 score = 0
 
 # Загрузка и конвертация изображений
-sky_surface = pygame.image.load('sky.PNG').convert()
-ground_surface = pygame.image.load('ground.PNG').convert()
+sky_surface = pygame.image.load('sky.PNG').convert() #размер изображения 1700 на 289
+sky_surface = pygame.transform.scale(sky_surface, (WIDTH, 289))
+ground_surface = pygame.image.load('ground.PNG').convert() #размер изображения 2015 на 816
+ground_surface = pygame.transform.scale(ground_surface, (WIDTH, HEIGHT//2))
 
 player = Player('cat.PNG', (90, 90), (100, 250))
 
 pit = NPS('pit.PNG', (45, 45), (4,6), (230, 230))
-fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 120))  
-start = Player('cat.stand.PNG', (200, 200), (364, 230))
+fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 110))  
+
+start_surf = pygame.image.load('cat.stand.PNG').convert_alpha()
+start_surf = pygame.transform.scale(start_surf, (200, 200))
+start_rect = start_surf.get_rect(midbottom = (364, 230))
 
 #группы
 player_group = pygame.sprite.GroupSingle(player)
@@ -165,5 +170,11 @@ while running:
         game_active = collision_sprite()
     else:
         screen.fill((123, 145, 123))
+        screen.blit(start_surf, start_rect)
+
+    score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
+    score_rect = score_surf.get_rect(center = (400,50))
+    screen.blit(score_surf,score_rect)
+
 
     pygame.display.update()
