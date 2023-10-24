@@ -1,77 +1,64 @@
-# Pythongame
+# Cat Runner
 
+Cat Runner - это увлекательная игра в пиксельном стиле, в которой вы управляете милым котиком, перепрыгивая ямы, чтобы собрать как можно больше рыбок.
 
-## Codestyle
+## Установка
 
-```python
-# -*- coding: utf-8 -*-
+Для установки и запуска игры вам понадобится [Poetry](https://python-poetry.org/).
 
-
-# импорт общих модулей
-import os
-import math
-
-
-# импорт pygame
-import pygame
-
-# импорт своих сервисов
-from scripts import test
-
-
-
-
-class FirstClass:
-    """ Описание класса """
-
-    def sum_function(self, first_num: int, second_num: int) -> int:
-        """
-        :param first_num: Первое число
-        :param second_num: Второе число
-
-        :returns: Возвращает сумму двух чисел.
-        """
-
-
-        return sum(first_num, second_num)
-
-
-class SecondClass:
-    """
-    Длинное описание класса
-    """
-    pass
-```
-
-
-## Poetry
-
-
-### Install
-
+### Установка зависимостей
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+$ poetry install
 ```
 
-### Poetry parh:
-* `~/Library/Application Support/pypoetry` on MacOS.
-* `~/.local/share/pypoetry` on Linux/Unix.
-* `%APPDATA%\pypoetry` on Windows.
+### Запуск игры
+Вы можете запустить игру с помощью следующей команды:
+```bash
+poetry run python game.py
+```
+Также вы можете активировать виртуальное окружение с Poetry и затем запустить игру из командной строки:
+```bash
+poetry shell
+```
+```bash
+python game.py
+```
+
+## Технологии
+
+Cat Runner разработана с использованием следующих технологий:
+
+- Python 3.10
+- Poetry 1.5.1
+- Pygame 2.5.2
+
+## Структура проекта
+```
+.
+├── catrunner
+│   ├── entity
+│   │   ├── __init__.py
+│   │   ├── npc.py  # Модуль с классом NPC (Non-Player Character).
+│   │   ├── player.py  # Модуль с классом Player, представляющим игрока.
+│   ├── font
+│   │   ├── __init__.py
+│   │   └── Pixeltype.ttf  # Шрифт, используемый в игре.
+│   ├── game.py  # Главный файл игры, запускающий игровой цикл и управляющий его логикой.
+│   ├── graphics
+│   │   ├── cat.PNG
+│   │   ├── cat.stand.PNG
+│   │   ├── fish.PNG
+│   │   ├── ground.PNG
+│   │   ├── __init__.py
+│   │   ├── pit.PNG
+│   │   └── sky.PNG
+│   └── __init__.py
+├── LICENSE  # Файл с лицензией, описывающий правила использования и распространения игры.
+├── pyproject.toml  # Файл проекта Poetry с настройками и зависимостями.
+└── README.md  # Описание и инструкции по установке и запуску игры, а также информация о проекте.
 
 
-### Add Poetry to your PATH
+```
 
-The installer creates a `poetry` wrapper in a well-known, platform-specific directory:
-
-* `$HOME/.local/bin` on Unix.
-* `%APPDATA%\Python\Scripts` on Windows.
-* `$POETRY_HOME/bin` if `$POETRY_HOME` is set.
-If this directory is not present in your `$PATH`, you can add it in order to invoke Poetry as `poetry`.
-
-Alternatively, the full path to the `poetry` binary can always be used:
-
-* `~/Library/Application Support/pypoetry/venv/bin/poetry` on MacOS.
-* `~/.local/share/pypoetry/venv/bin/poetry` on Linux/Unix.
-* `%APPDATA%\pypoetry\venv\Scripts\poetry` on Windows.
-( `$POETRY_HOME/venv/bin/poetry` if `$POETRY_HOME` is set.
+&copy; 2023 Ксения Травникова
 
