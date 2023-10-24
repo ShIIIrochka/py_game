@@ -71,25 +71,27 @@ class NPS(pygame.sprite.Sprite):
             self.kill()
 
 
-def collision_sprite():
+def collision_sprite() -> bool:
     """
     функция для подсчета score и проверок столкновений спрайтов
     """
 
     global score
-    collisions = pygame.sprite.spritecollide(player, obstacle_group, False)
+
+    collisions = pygame.sprite.spritecollide(player, obstacle_group, True)
 
     for sprite in collisions:
-        if sprite == fish_instances:  # Проверка столкновения игрока с fish
-            sprite.kill()
+        if sprite in fish_instances:
+            fish_instances.remove(sprite)
             score += 1
-        elif sprite == pit_instances:
-            sprite.kill()  # Проверка столкновения игрока с pit
-            return False  # Возвращение False, чтобы вернуть игру на экран старта
-    
-    score_surf = test_font.render(f'Score: {score}',False,(64,64,64))
-    score_rect = score_surf.get_rect(center = (400,50))
-    screen.blit(score_surf,score_rect)
+
+        elif sprite in pit_instances:
+            obstacle_group.empty()
+            return False 
+
+    score_surf = test_font.render(f'Score: {score}', False, (64, 64, 64))
+    score_rect = score_surf.get_rect(center=(400, 50))
+    screen.blit(score_surf, score_rect)
 
     return True
 
@@ -97,9 +99,9 @@ def obstaclegroup() -> None:
         
         global pit_instances, fish_instances
         
-        pit_instances = NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230))
-        fish_instances = NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 120))  
-        obstacle_group.add(pit_instances, fish_instances)
+        fish_instances = [NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 110)) for i in range(4)]
+        pit_instances = [NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230)) for i in range(2)]   
+        obstacle_group.add(*fish_instances, *pit_instances)
 
 
 #параметры игрового окна
@@ -176,6 +178,7 @@ while running:
 
             obstaclegroup()
 
+            
         obstacle_group.draw(screen)
         obstacle_group.update()
 
