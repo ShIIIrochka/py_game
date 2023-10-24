@@ -105,22 +105,22 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT)) #создание окна и�
 pygame.display.set_caption("My Game") #название игры
 clock = pygame.time.Clock()
 
-test_font = pygame.font.Font(None, 50)
+test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 
 score = 0
 
 # Загрузка и конвертация изображений
-sky_surface = pygame.image.load('sky.PNG').convert() #размер изображения 1700 на 289
+sky_surface = pygame.image.load('graphics/sky.PNG').convert() #размер изображения 1700 на 289
 sky_surface = pygame.transform.scale(sky_surface, (WIDTH, 289))
-ground_surface = pygame.image.load('ground.PNG').convert() #размер изображения 2015 на 816
+ground_surface = pygame.image.load('graphics/ground.PNG').convert() #размер изображения 2015 на 816
 ground_surface = pygame.transform.scale(ground_surface, (WIDTH, HEIGHT//2))
 
-player = Player('cat.PNG', (90, 90), (100, 250))
+player = Player('graphics/cat.PNG', (90, 90), (100, 250))
 
-pit = NPS('pit.PNG', (45, 45), (4,6), (230, 230))
-fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 110))  
+pit = NPS('graphics/pit.PNG', (45, 45), (4,6), (230, 230))
+fish = NPS('graphics/fish.PNG', (50, 50), (5, 7), (40, 110))  
 
-start_surf = pygame.image.load('cat.stand.PNG').convert_alpha()
+start_surf = pygame.image.load('graphics/cat.stand.PNG').convert_alpha()
 start_surf = pygame.transform.scale(start_surf, (200, 200))
 start_rect = start_surf.get_rect(center = (400,200))
 
@@ -168,8 +168,8 @@ while running:
 
         if not obstacle_group:
 
-            pit = NPS('pit.PNG', (45, 45), (4, 6), (230, 230))
-            fish = NPS('fish.PNG', (50, 50), (5, 7), (70, 120))  
+            pit = NPS('graphics/pit.PNG', (45, 45), (4, 6), (230, 230))
+            fish = NPS('graphics/fish.PNG', (50, 50), (5, 7), (70, 120))  
             obstacle_group.add(pit, fish)
 
         obstacle_group.draw(screen)
