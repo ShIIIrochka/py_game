@@ -11,6 +11,8 @@ def collision_sprite() -> bool:
     """
 
     global score
+    global list_score
+    global HI
 
     collisions = pygame.sprite.spritecollide(player, obstacle_group, True)
 
@@ -18,6 +20,9 @@ def collision_sprite() -> bool:
         if sprite in fish_instances:
             fish_instances.remove(sprite)
             score += 1
+            list_score.append(score)
+            if len(list_score) > 1:
+                HI = max(list_score)
 
         elif sprite in pit_instances:
             obstacle_group.empty()
@@ -27,7 +32,18 @@ def collision_sprite() -> bool:
     score_rect = score_surf.get_rect(center=(400, 50))
     screen.blit(score_surf, score_rect)
 
+    max_score(100)
+
     return True
+
+def max_score(y_coord) -> None:
+    """
+    вывод на экран максимального значения score
+    :param y_coord: - координата надписи по оси y
+    """
+    max_score_surf = test_font.render(f'HI: {HI}', False, (105, 104, 174))
+    max_score = max_score_surf.get_rect(center=(400, y_coord))
+    screen.blit(max_score_surf, max_score)
 
 def obstaclegroup() -> None:
         
@@ -51,10 +67,12 @@ clock = pygame.time.Clock()
 test_font = pygame.font.Font('font/Pixeltype.ttf', 50)
 
 score = 0
+list_score = []
 
 # Загрузка и конвертация изображений
 sky_surface = pygame.image.load('graphics/sky.PNG').convert() #размер изображения 1700 на 289
 sky_surface = pygame.transform.scale(sky_surface, (WIDTH, 289))
+
 ground_surface = pygame.image.load('graphics/ground.PNG').convert() #размер изображения 2015 на 816
 ground_surface = pygame.transform.scale(ground_surface, (800, 150))
 
@@ -76,6 +94,7 @@ game_active = False
 
 game_message = test_font.render('Press space to run',False,(105, 104, 174))
 game_message_rect = game_message.get_rect(center = (400,330))
+HI = 0
 
 while running:
     #держим цикл на правильной скорости
@@ -120,9 +139,7 @@ while running:
         screen.blit(start_surf, start_rect)
         screen.blit(game_message,game_message_rect)
 
-    score_surf = test_font.render(f'Score: {score}',False,(105, 104, 174))
-    score_rect = score_surf.get_rect(center = (400,50))
-    screen.blit(score_surf,score_rect)
+        max_score(50)
 
     if __name__ == '__main__':
         pygame.display.update()

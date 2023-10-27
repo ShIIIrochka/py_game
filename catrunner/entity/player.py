@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.player_surf = pygame.transform.scale(self.player_surf, size)
         self.rect = self.player_surf.get_rect(midbottom=pos)
         self.image = self.player_surf
+        
 
     def jump(self):
         """
